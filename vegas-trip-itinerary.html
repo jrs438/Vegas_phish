@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vegas Trip — The 40s Tour 🎸</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon: #f0c040;
+    --neon2: #ff6b35;
+    --bg: #0a0a0f;
+    --card: #111118;
+    --card2: #16161f;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --green: #4ade80;
+    --red: #f87171;
+    --blue: #60a5fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(240,192,64,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,107,53,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    background-color: #1a0820;
+    background-image:
+      radial-gradient(circle, transparent 30%, rgba(180,30,30,0.6) 31%, rgba(180,30,30,0.6) 45%, transparent 46%),
+      radial-gradient(circle, transparent 30%, rgba(180,30,30,0.6) 31%, rgba(180,30,30,0.6) 45%, transparent 46%);
+    background-size: 70px 70px;
+    background-position: 0 0, 35px 35px;
+    z-index: 0;
+  }
+
+  .header-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,10,15,0.1) 0%,
+      rgba(10,10,15,0.55) 50%,
+      rgba(10,10,15,0.95) 100%
+    );
+    z-index: 1;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 2;
+    padding: 36px 32px 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .header-text {
+    flex: 1;
+  }
+
+  .trip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 88px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 16px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+  }
+
+  h1 span {
+    color: var(--neon);
+  }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(17,17,24,0.75);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    backdrop-filter: blur(4px);
+  }
+
+  .meta-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon);
+  }
+
+  .header-logo {
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1) brightness(0.9);
+    opacity: 0.85;
+    mix-blend-mode: screen;
+  }
+
+  @media (max-width: 480px) {
+    .header-content { flex-direction: column; align-items: flex-start; }
+    .header-logo { width: 80px; height: 80px; }
+  }
+
+  /* Day blocks */
+  .day-block {
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .day-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--neon);
+    min-width: 52px;
+  }
+
+  .day-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .day-info .date-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .day-body {
+    padding: 0;
+  }
+
+  /* Timeline items */
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item:last-child {
+    border-bottom: none;
+  }
+
+  .time-col {
+    padding: 18px 16px;
+    background: var(--card2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .time-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .time-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .type-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+
+  .type-activity { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .type-food { background: rgba(74,222,128,0.15); color: var(--green); }
+  .type-show { background: rgba(240,192,64,0.15); color: var(--neon); }
+  .type-travel { background: rgba(120,120,160,0.15); color: var(--muted); }
+  .type-shabbat { background: rgba(255,107,53,0.15); color: var(--neon2); }
+  .type-note { background: rgba(248,113,113,0.15); color: var(--red); }
+
+  .content-col {
+    padding: 18px 20px;
+    background: var(--bg);
+  }
+
+  .item-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .item-title a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240,192,64,0.3);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .item-title a:hover {
+    color: var(--neon);
+    border-color: var(--neon);
+  }
+
+  .item-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-top: 2px;
+  }
+
+  .item-tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--neon2);
+    background: rgba(255,107,53,0.08);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  /* Shabbat block */
+  .shabbat-notice {
+    margin: 0;
+    padding: 16px 20px;
+    background: rgba(255,107,53,0.05);
+    border-bottom: 1px solid rgba(255,107,53,0.15);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .shabbat-icon {
+    font-size: 20px;
+    margin-top: 1px;
+  }
+
+  .shabbat-notice p {
+    font-size: 13px;
+    color: rgba(255,200,150,0.85);
+    line-height: 1.5;
+  }
+
+  .shabbat-notice strong {
+    color: var(--neon2);
+  }
+
+  /* Kosher section */
+  .kosher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    padding: 18px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .kosher-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .kosher-card-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .kosher-card-name a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240,192,64,0.3);
+    transition: color 0.2s;
+  }
+
+  .kosher-card-name a:hover { color: var(--neon); }
+
+  .kosher-card-name .stars {
+    font-size: 11px;
+    color: var(--neon);
+  }
+
+  .kosher-card-detail {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .kosher-card-warn {
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 20px 0;
+    background: var(--bg);
+  }
+
+  /* Option Cards — for ATV and Show alternatives */
+  .options-block {
+    padding: 0 20px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .options-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .options-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+  }
+
+  .option-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+
+  .option-card:hover {
+    border-color: rgba(240,192,64,0.35);
+    transform: translateY(-1px);
+  }
+
+  .option-card.top-pick {
+    border-color: rgba(240,192,64,0.45);
+    background: linear-gradient(135deg, rgba(240,192,64,0.05) 0%, var(--card) 60%);
+  }
+
+  .option-card .pick-badge {
+    position: absolute;
+    top: -1px;
+    right: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--neon);
+    color: #0a0a0f;
+    padding: 2px 8px;
+    border-radius: 0 0 4px 4px;
+    font-weight: 600;
+  }
+
+  .option-card-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .option-card-title a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240,192,64,0.3);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .option-card-title a:hover {
+    color: var(--neon);
+    border-color: var(--neon);
+  }
+
+  .option-card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--blue);
+    background: rgba(96,165,250,0.1);
+    padding: 2px 7px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 7px;
+  }
+
+  .option-card-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Kosher meat card accent */
+  .kosher-card.meat {
+    border-left: 3px solid rgba(240,192,64,0.5);
+  }
+
+  .kosher-card.verify {
+    border-left: 3px solid rgba(248,113,113,0.5);
+    background: rgba(248,113,113,0.04);
+  }
+
+  .kosher-card-verify-note {
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  @media (max-width: 560px) {
+    .options-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    max-width: 460px;
+    line-height: 1.6;
+  }
+
+  .footer-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 12px;
+  }
+
+  @media (max-width: 560px) {
+    .timeline-item { grid-template-columns: 80px 1fr; }
+    .time-col { padding: 14px 10px; }
+    .content-col { padding: 14px 14px; }
+    .day-header { padding: 14px 16px; }
+    .kosher-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-bg"></div>
+    <div class="header-bg-overlay"></div>
+    <div class="header-content">
+      <div class="header-text">
+        <div class="trip-label">Group Trip · Las Vegas · 2026</div>
+        <h1>The <span>40s</span><br>Tour</h1>
+        <div class="header-meta">
+          <div class="meta-pill"><span class="dot"></span> Apr 30 – May 3</div>
+          <div class="meta-pill"><span class="dot"></span> Staying at Aria</div>
+          <div class="meta-pill"><span class="dot"></span> Phish @ The Sphere × 2</div>
+          <div class="meta-pill"><span class="dot"></span> 4 Guys · 4 Days</div>
+        </div>
+      </div>
+      <div class="header-logo">
+        <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;opacity:0.7">
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" 
+                font-family="serif" font-size="52" font-weight="900" 
+                fill="white" letter-spacing="2">PHISH</text>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== THURSDAY APR 30 ===== -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">01</div>
+      <div class="day-info">
+        <div class="date-tag">THURSDAY · APR 30</div>
+        <h2>Arrival Day + Night 1</h2>
+      </div>
+    </div>
+    <div class="day-body">
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">ARRIVE</span>
+          <span class="time-value">11:20am</span>
+          <span class="type-badge type-travel">Travel</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">UA 1631 lands · Harry Reid International (LAS)</div>
+          <div class="item-desc">Grab bags, get to Aria — expect check-in around 1:30pm. Drop everything, freshen up.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">~2PM</span>
+          <span class="time-value">Option</span>
+          <span class="type-badge type-activity">Activity</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://swingers.club/us/locations/las-vegas" target="_blank">Swingers Crazy Golf</a>
+          </div>
+          <div class="item-desc">Upscale mini golf + cocktails. Perfect 90-min activity if the group has energy before dinner. ~10 min walk south of Aria.</div>
+          <div class="item-tip">💡 Skip if the group is tired — Strip walk + casino is fine too</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">DINNER</span>
+          <span class="time-value">5:30pm</span>
+          <span class="type-badge type-food">Dinner</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://www.javiers.net/locations/las-vegas/" target="_blank">Javier's</a> — Reservations Confirmed
+          </div>
+          <div class="item-desc">Upscale Mexican at Aria. Pre-show dinner sorted.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">NIGHT</span>
+          <span class="time-value">Showtime</span>
+          <span class="type-badge type-show">Show</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://www.thesphere.com" target="_blank">Phish @ The Sphere</a> 🎸
+          </div>
+          <div class="item-desc">Night 1. The whole reason you're here. Uber or short walk (~15 min) up the Strip.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== FRIDAY MAY 1 ===== -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">02</div>
+      <div class="day-info">
+        <div class="date-tag">FRIDAY · MAY 1</div>
+        <h2>Adventure Day + Shabbat</h2>
+      </div>
+    </div>
+    <div class="day-body">
+
+      <div class="shabbat-notice">
+        <div class="shabbat-icon">🕯️</div>
+        <p><strong>Shabbat candle lighting: ~7:35pm.</strong> Order kosher delivery early Friday morning — restaurants close mid-afternoon. Plan to be back from ATV tour by 1pm to sort food before sundown.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">MORNING</span>
+          <span class="time-value">8–9am</span>
+          <span class="type-badge type-activity">Activity</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">ATV / Off-Road Desert Adventure</div>
+          <div class="item-desc">Each rider gets their own machine. Hotel shuttle included with all operators. Book earliest available slot — need to be back by 1pm for Shabbat prep.</div>
+        </div>
+      </div>
+
+      <div class="options-block">
+        <div class="options-label">Pick Your Operator</div>
+        <div class="options-grid">
+          <div class="option-card top-pick">
+            <div class="pick-badge">⭐ Top Pick</div>
+            <div class="option-card-tag">Spring Mountains · 30 min from Strip</div>
+            <div class="option-card-title"><a href="https://www.vegasatvadventures.com" target="_blank">Vegas ATV Adventures</a></div>
+            <div class="option-card-desc">Your own ATV through the Yellow Pine Mining District — Joshua trees, canyon walls, desert washes, hair-pin turns. Free hotel shuttle. ~2.5 hrs total.</div>
+          </div>
+          <div class="option-card">
+            <div class="option-card-tag">Mojave Desert · 30 min from Strip</div>
+            <div class="option-card-title"><a href="https://www.vegasoffroadtours.com" target="_blank">Vegas Off Road Tours</a></div>
+            <div class="option-card-desc">Drive a Polaris XP 1000 side-by-side through the Mojave. More of a performance machine than a standard ATV — great if you want something that feels like a sports vehicle.</div>
+          </div>
+          <div class="option-card">
+            <div class="option-card-tag">Lake Mead / Colorado River · 45 min</div>
+            <div class="option-card-title"><a href="https://lasvegasatvs.com" target="_blank">Las Vegas ATVs</a></div>
+            <div class="option-card-desc">3-in-1 tour through Mojave Desert and Lake Mead National Park. Longest option (~4–5 hrs) but the best scenery — includes lunch at an award-winning burger spot.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">ORDER BY</span>
+          <span class="time-value">Noon</span>
+          <span class="type-badge type-note">Action Required</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">⚠️ Order Shabbat Dinner (Kosher Delivery)</div>
+          <div class="item-desc">All kosher restaurants are a ~20 min drive off-Strip. Call/order Thursday evening or early Friday to arrange delivery for ~7pm. See options below.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Kosher Meat Delivery Options</div>
+      <div class="kosher-grid">
+        <div class="kosher-card meat">
+          <div class="kosher-card-name">
+            <a href="https://shawarmavegasgrill.com" target="_blank">Shawarma Vegas</a>
+            <span class="stars">★ 4.7 · Glatt</span>
+          </div>
+          <div class="kosher-card-detail">Meat · Shawarma, kebabs, pargiot, Israeli grill · Delivers to Strip</div>
+          <div class="kosher-card-warn">⏰ Closes Friday at 2pm — order Thursday night</div>
+        </div>
+        <div class="kosher-card meat">
+          <div class="kosher-card-name">
+            <a href="https://www.burntofferingslv.com" target="_blank">Burnt Offerings</a>
+            <span class="stars">★ 4.5 · OU</span>
+          </div>
+          <div class="kosher-card-detail">Meat · Prime ribeye, lamb chops, creative American kosher · Catering available</div>
+          <div class="kosher-card-warn">⏰ Closes Friday at 3pm — call ahead for Shabbat delivery</div>
+        </div>
+        <div class="kosher-card meat">
+          <div class="kosher-card-name">
+            <a href="https://jerusalemgrillvegas.com" target="_blank">Jerusalem Grill</a>
+            <span class="stars">★ 4.6</span>
+          </div>
+          <div class="kosher-card-detail">Meat · Mediterranean/Israeli, chef's table, delivery & catering</div>
+          <div class="kosher-card-warn">⏰ Call ahead to confirm Friday Shabbat delivery hours</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">~4PM</span>
+          <span class="time-value">Optional</span>
+          <span class="type-badge type-activity">Activity</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://www.caesars.com/linq/things-to-do/attractions/high-roller" target="_blank">High Roller Observation Wheel</a>
+          </div>
+          <div class="item-desc">30-min ride with 360° Strip views — a calm way to wind down before Shabbat. Opens at 12:30pm. ~15 min walk from Aria.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">SHABBAT</span>
+          <span class="time-value">7:35pm</span>
+          <span class="type-badge type-shabbat">Shabbat</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">Shabbat Dinner at the Hotel</div>
+          <div class="item-desc">Candle lighting ~7:35pm. Kosher delivery arrives, Shabbat dinner in the room or hotel common area. Relaxed night in before a big Saturday.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">LATE</span>
+          <span class="time-value">9:30pm+</span>
+          <span class="type-badge type-show">Show</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">Friday Night Show</div>
+          <div class="item-desc">Shabbat has started by showtime — all options below are walkable from Aria or a very short Uber. Book in advance, late shows fill up on Fridays.</div>
+        </div>
+      </div>
+
+      <div class="options-block">
+        <div class="options-label">Show Options</div>
+        <div class="options-grid">
+          <div class="option-card top-pick">
+            <div class="pick-badge">⭐ Top Pick</div>
+            <div class="option-card-tag">MGM Grand · 10 min walk</div>
+            <div class="option-card-title"><a href="https://www.cirquedusoleil.com/ka" target="_blank">KÀ — Cirque du Soleil</a></div>
+            <div class="option-card-desc">90 mins, no intermission. Gravity-defying acrobatics, martial arts, pyrotechnics on a 360° rotating stage that goes vertical and disappears into the floor. Nothing else like it.</div>
+          </div>
+          <div class="option-card">
+            <div class="option-card-tag">MGM Grand · 10 min walk</div>
+            <div class="option-card-title"><a href="https://www.mgmgrand.com/en/entertainment/brad-garretts-comedy-club.html" target="_blank">Brad Garrett's Comedy Club</a></div>
+            <div class="option-card-desc">Rotating lineup of top-tier stand-up comics. Same building as KÀ — more casual, lower stakes, reliably hilarious. Great fallback if anyone in the group isn't a Cirque person.</div>
+          </div>
+          <div class="option-card">
+            <div class="option-card-tag">Rio · ~10 min Uber</div>
+            <div class="option-card-title"><a href="https://pennandteller.com" target="_blank">Penn & Teller</a></div>
+            <div class="option-card-desc">The most interactive magic show in Vegas. They explain how some tricks work — which somehow makes it funnier and more mind-blowing. Not walkable but absolutely worth the Uber.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== SATURDAY MAY 2 ===== -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">03</div>
+      <div class="day-info">
+        <div class="date-tag">SATURDAY · MAY 2</div>
+        <h2>Shabbat Pool Day + Night 2</h2>
+      </div>
+    </div>
+    <div class="day-body">
+
+      <div class="shabbat-notice">
+        <div class="shabbat-icon">✡️</div>
+        <p><strong>Shabbat ends ~8:45pm (Havdalah).</strong> Full day of rest and pool. Phish Night 2 in the evening — your last show and early Sunday flight, so make it count.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">ALL DAY</span>
+          <span class="time-value">9am–6pm</span>
+          <span class="type-badge type-activity">Pool</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://aria.mgmresorts.com/en/amenities/pools.html" target="_blank">Aria Pool & Cabanas</a>
+          </div>
+          <div class="item-desc">Book a cabana in advance — they sell out on Saturdays in late spring. Three pools on property. Perfect decompression day.</div>
+          <div class="item-tip">💡 Book your cabana ASAP through the Aria website</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">DINNER</span>
+          <span class="time-value">TBD</span>
+          <span class="type-badge type-food">Dinner</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://hasalontlv.com" target="_blank">HaSalon</a> — Reservations Confirmed
+          </div>
+          <div class="item-desc">Lively Israeli restaurant — dinner before Phish Night 2.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">NIGHT</span>
+          <span class="time-value">Showtime</span>
+          <span class="type-badge type-show">Show</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">
+            <a href="https://www.thesphere.com" target="_blank">Phish @ The Sphere</a> 🎸
+          </div>
+          <div class="item-desc">Night 2 — the grand finale. Different setlist, same insanity. Havdalah at ~8:45pm lines up perfectly with a late showtime.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== SUNDAY MAY 3 ===== -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-number">04</div>
+      <div class="day-info">
+        <div class="date-tag">SUNDAY · MAY 3</div>
+        <h2>Early Departure</h2>
+      </div>
+    </div>
+    <div class="day-body">
+
+      <div class="timeline-item">
+        <div class="time-col">
+          <span class="time-label">DEPART</span>
+          <span class="time-value">7:00am</span>
+          <span class="type-badge type-travel">Travel</span>
+        </div>
+        <div class="content-col">
+          <div class="item-title">Flight out · 7:00am</div>
+          <div class="item-desc">Leave hotel by ~5:00am. Bags packed Saturday night. No heroics — straight to the airport.</div>
+          <div class="item-tip">⏰ Set three alarms. Saturday night ends early by necessity.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Full trip summary -->
+  <footer>
+    <div class="footer-note">
+      <strong style="color:var(--text)">Key bookings to make now:</strong><br>
+      ATV tour (book early morning slot) · KÀ late show Friday · Aria cabana for Saturday · Kosher delivery (call Thursday or Friday AM) · Swingers if doing Thursday activity.
+    </div>
+    <div class="footer-badge">LAS · APR 30–MAY 3 · 2026</div>
+  </footer>
+
+</div>
+</body>
+</html>
